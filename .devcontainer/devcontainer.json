@@ -1,0 +1,27 @@
+{
+  "name": "lib-management (full stack)",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "22" },
+    "ghcr.io/devcontainers/features/java:1": { "version": "21", "installMaven": "true" }
+  },
+  "forwardPorts": [5173, 5007, 5008],
+  "portsAttributes": {
+    "5173": { "label": "Frontend (app)", "onAutoForward": "openPreview" },
+    "5007": { "label": "Backend API", "onAutoForward": "silent" },
+    "5008": { "label": "Java Report Service", "onAutoForward": "silent" }
+  },
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "postStartCommand": "bash .devcontainer/start.sh",
+  "remoteUser": "vscode",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "vscjava.vscode-java-pack"
+      ]
+    }
+  }
+}

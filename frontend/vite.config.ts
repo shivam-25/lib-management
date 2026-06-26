@@ -14,7 +14,21 @@ export default ({ mode }: { mode: string }) => {
       }
     },
     server: {
-      open: '/app'
+      host: true,
+      port: 5173,
+      open: '/app',
+      // Allow the *.app.github.dev (Codespaces) and other proxy hosts to reach the dev server.
+      allowedHosts: true,
+      // Single-origin proxy: when VITE_API_URL is empty the app calls relative
+      // /api/v1, and these requests are forwarded to the backend on the same
+      // origin — so auth cookies (incl. the JS-readable csrfToken) just work.
+      proxy: {
+        '/api': {
+          target: process.env.BACKEND_PROXY_TARGET || 'http://localhost:5007',
+          changeOrigin: true,
+          secure: false
+        }
+      }
     }
   });
 };
