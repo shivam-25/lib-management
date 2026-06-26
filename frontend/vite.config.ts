@@ -23,6 +23,13 @@ export default ({ mode }: { mode: string }) => {
       // /api/v1, and these requests are forwarded to the backend on the same
       // origin — so auth cookies (incl. the JS-readable csrfToken) just work.
       proxy: {
+        // The PDF report endpoint is served by the Java service (:5008), not the
+        // Node backend — route it there before the catch-all /api rule below.
+        '^/api/v1/students/[^/]+/report': {
+          target: process.env.REPORT_PROXY_TARGET || 'http://localhost:5008',
+          changeOrigin: true,
+          secure: false
+        },
         '/api': {
           target: process.env.BACKEND_PROXY_TARGET || 'http://localhost:5007',
           changeOrigin: true,
