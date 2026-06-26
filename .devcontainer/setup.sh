@@ -32,7 +32,7 @@ echo "==> Installing backend dependencies"
 ( cd backend && npm install )
 
 echo "==> Installing frontend dependencies"
-( cd frontend && npm install --ignore-scripts )   # skip husky 'prepare' (fails in the nested-git layout)
+( cd frontend && HUSKY=0 npm install )
 
 echo "==> Building Java report service"
 ( cd Java-service && mvn -q -DskipTests package ) || echo "    (Java build failed/skipped — service is optional for the demo)"
